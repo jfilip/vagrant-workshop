@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
-  config.vm.box = 'ubuntu/trusty64'
+  config.vm.box = 'bento/ubuntu-16.04'
 
   config.vm.hostname = 'rails-getting-started'
 
@@ -33,7 +33,8 @@ Vagrant.configure(2) do |config|
     vb.memory = 1024
   end
 
-  config.vm.provision 'shell', path: 'ruby22.sh'
+  config.vm.provision 'shell', path: 'ruby23.sh'
+  config.vm.provision 'shell', path: 'nodejs.sh'
   config.vm.provision 'shell', path: 'postgres9.sh'
   config.vm.provision 'shell', inline: 'echo -e "\ncd /vagrant" >> /home/vagrant/.bashrc'
 end
