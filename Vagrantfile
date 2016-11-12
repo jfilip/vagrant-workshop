@@ -33,8 +33,6 @@ Vagrant.configure(2) do |config|
     vb.memory = 1024
   end
 
-  config.vm.provision 'shell', path: 'ruby23.sh'
-  config.vm.provision 'shell', path: 'nodejs.sh'
-  config.vm.provision 'shell', path: 'postgres9.sh'
+  config.vm.provision 'shell', path: 'rubydev.sh'
   config.vm.provision 'shell', inline: 'echo -e "\ncd /vagrant" >> /home/vagrant/.bashrc'
 end

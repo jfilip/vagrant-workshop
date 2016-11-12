@@ -20,7 +20,12 @@ sudo cat - > /etc/default/locale <<EOF
  LC_ALL=en_US.UTF-8
 EOF
 
-sudo apt-get -y install postgresql-9.5 postgresql-client-9.5 postgresql-server-dev-9.5
+sudo apt-get -y update
+sudo apt-get -y install ntp sqlite3 ruby ruby-dev bundler nodejs postgresql-9.5 \
+  postgresql-client-9.5 postgresql-server-dev-9.5
+
+sudo mkdir -p /opt/bundle
+sudo chown -R vagrant:staff /opt/bundle
 
 # Only create the 'vagrant' user role if it doesn't already exist.
 if [ `sudo -u postgres psql -t -c "SELECT COUNT('x') FROM pg_roles WHERE rolname = 'vagrant';"` -eq '0' ]; then
