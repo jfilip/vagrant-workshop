@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
     } unless Vagrant::Util::Platform.windows?
   end
 
-  config.vbguest.auto_update = false
+  config.vbguest.auto_update = false if Vagrant.has_plugin?('vagrant-vbguest')
 
   config.vm.provider 'virtualbox' do |vb|
     vb.cpus = 2
