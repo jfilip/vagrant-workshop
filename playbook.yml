@@ -1,0 +1,53 @@
+---
+- hosts: all
+  vars:
+    default_locale: en_US.UTF-8
+  remote_user: vagrant
+  become: yes
+  tasks:
+    - name: Generate default locale
+      locale_gen:
+        name: '{{ default_locale }}'
+    - name: Setup system-wide default locale
+      template:
+        src: locale.j2
+        dest: /etc/default/locale
+        owner: root
+        group: root
+        mode: 0644
+    - name: Add Ruby 2.4 PPA
+      apt_repository:
+        repo: 'ppa:brightbox/ruby-ng-experimental'
+    - name: Update APT cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Install required software
+      apt: name={{ item }} state=present
+      with_items:
+        - ntp
+        - sqlite3
+        - ruby2.4
+        - ruby2.4-dev
+        - bundler
+        - nodejs
+        - postgresql-9.5
+        - postgresql-client-9.5
+        - postgresql-server-dev-9.5
+        - python-psycopg2
+    - name: Create bundler install directory
+      file:
+        path: /opt/bundle
+        state: directory
+        owner: vagrant
+        group: staff
+    - name: Ensure Vagrant Postgres user exists
+      postgresql_user:
+        name: vagrant
+        password: vagrant
+        role_attr_flags: CREATEDB,LOGIN
+      become_user: postgres
+    - name: Change dir to /vagrant on login
+      lineinfile:
+        dest: /home/vagrant/.bashrc
+        line: 'cd /vagrant'

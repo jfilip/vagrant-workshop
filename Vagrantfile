@@ -33,6 +33,10 @@ Vagrant.configure(2) do |config|
     vb.memory = 1024
   end
 
-  config.vm.provision 'shell', path: 'rubydev.sh'
-  config.vm.provision 'shell', inline: 'echo -e "\ncd /vagrant" >> /home/vagrant/.bashrc'
+  # Run Ansible from the Vagrant VM
+  config.vm.provision 'ansible_local' do |ansible|
+    ansible.install_mode = :pip
+    ansible.version = '2.2.0'
+    ansible.playbook = 'playbook.yml'
+  end
 end
