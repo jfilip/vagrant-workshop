@@ -31,3 +31,8 @@ sudo chown -R vagrant:staff /opt/bundle
 if [ `sudo -u postgres psql -t -c "SELECT COUNT('x') FROM pg_roles WHERE rolname = 'vagrant';"` -eq '0' ]; then
   sudo -u postgres psql -c "CREATE ROLE vagrant WITH CREATEDB LOGIN PASSWORD 'vagrant';"
 fi
+
+# Setup Ruby 2.4 PPA repo and install
+sudo add-apt-repository ppa:brightbox/ruby-ng-experimental
+sudo apt-get -y update
+sudo apt-get -y install ruby2.4 ruby2.4-dev
